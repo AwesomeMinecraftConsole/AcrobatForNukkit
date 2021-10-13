@@ -1,5 +1,5 @@
 plugins {
-    kotlin("jvm") version "1.6.0-M1"
+    kotlin("jvm") version "1.5.31"
 }
 
 group = "org.example"
@@ -11,4 +11,5 @@ repositories {
 
 dependencies {
     implementation(kotlin("stdlib"))
+    compileOnly("org.spongepowered:spongeapi:7.2.0")
 }
