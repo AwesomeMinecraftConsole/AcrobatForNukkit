@@ -11,7 +11,7 @@ import kotlin.coroutines.CoroutineContext
 
 interface AcrobatClient {
     suspend fun connect()
-    suspend fun shutdown()
+    fun shutdown()
 }
 
 data class OnlinePlayer(val id: String, val name: String, val ping: Int)
@@ -30,15 +30,12 @@ class AcrobatClientImpl(channel: ManagedChannel, private val onlinePlayersFlow: 
     private val stub = AcrobatGrpcKt.AcrobatCoroutineStub(channel).withWaitForReady()
 
     override suspend fun connect() {
-        coroutineScope {
-            launch {
-                stub.onlinePlayers(onlinePlayersFlow.map { it.build() })
-            }
+        launch {
+            stub.onlinePlayers(onlinePlayersFlow.map { it.build() })
         }.join()
     }
 
-    override suspend fun shutdown() {
-
+    override fun shutdown() {
         coroutineContext.cancel()
     }
 }
